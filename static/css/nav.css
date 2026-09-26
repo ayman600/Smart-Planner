@@ -8,22 +8,35 @@
     padding: 0;
     display: flex;
     gap: 10px;  
-    background: rgb(230, 230, 230);
-    border:1px solid #ddd;
     border-radius:8px;
     margin-top: 15px;
 
 }
 .navigation a{
     display: flex;
+    justify-content: center;
     align-items: center;
+    height:40px;
+    width:150px;
     gap: 15px;
     padding: 14px 18px;
     text-decoration: none;
+    background: rgb(197, 197, 197);
     color:#333;
     border-radius:8px;
     margin:3px;
     transition:0.2s;
+}
+#theme-switch{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    border:none;
+    background-color: transparent;
+}
+.dark #theme-switch{
+    color:white;
 }
 .navigation svg{
     min-width:24px;
@@ -31,6 +44,6 @@
     fill:currentColor;
 }
 .navigation a:hover{
-    background:#e8f3ff;
-    color:#564aff;
+    background:#818181;
+    color:#000000;
 } 

@@ -43,7 +43,7 @@
 
     .login-btn{
         color:#6d4aff;
-        border:2px solid #6d4aff;
+        border:2px solid #3300ff;
     }
 
     .login-btn:hover{
@@ -51,12 +51,18 @@
     }
 
     .signup-btn{
-        background:#6d4aff;
+        background:#3300ff;
         color:white;
     }
 
     .signup-btn:hover{
         background:#5a38db;
+    }
+    .dark, .dark .containerr{
+        background-color: #121212;
+    }
+    .dark h2{
+        color:white;
     }
     </style>
 {% endblock head %}
@@ -66,7 +72,7 @@
 <!-- The class name of the next class was changed from container to cantainerr because of bootstrap -->
 <div class="containerr">
     <div class="main">
-        <h1 style="color:#5a38db">Smart Planner</h1>
+        <h1 style="color:#3806eb">Smart Planner</h1>
         <h2>Organize your tasks intelligently.</h2>
         <div class="hero-buttons">
             <a class="login-btn" href="{{ url_for('log_in') }}";">Log in</a>
@@ -74,5 +80,21 @@
          </div>
     </div>
 </div>
+<script>
+const themeBtn = document.getElementById("theme-switch");
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+}
+
+themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
+});
+</script>
 {% endblock content %}
  What's a codespace in github. OK, never mind, I discovered myself, So don't do anything till I come. Understand? Cool.
