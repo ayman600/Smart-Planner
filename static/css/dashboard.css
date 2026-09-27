@@ -45,18 +45,18 @@
 
 .high{
     /* background-color:#ff000033; */
-    border:1px solid #ef4444;
+    border:2px solid #ef4444;
     border-left:6px solid #ef4444;
 
 }
 .medium{
     /* background-color:#ffa60033; */
-    border:1px solid #f59e0b;
+    border:2px solid #f59e0b;
     border-left:6px solid #f59e0b;
 }
 .low{
     /* background-color:#00bd4f33; */
-    border:1px solid #10b981;
+    border:2px solid #10b981;
     border-left:6px solid #10b981;
 }
 
@@ -122,7 +122,7 @@
 }
 .menuu.sortby:hover,.delete-all-tasks:hover{
     background: #3d3d3d;
-    color:white
+    color:white !important;
 }
 .delete-all-tasks a:hover{
     color:white;
@@ -181,7 +181,7 @@
     gap: 7px;
     font-size:25px;
     font-weight:normal;
-    background:#ffffff;
+    background:#dddbdb;
     padding: 0px 10px;
     border-radius:8px;
 }
@@ -238,7 +238,7 @@
     100%{left:100%}
 }
 .delete-all-tasks{
-    background-color: rgb(235, 231, 231);
+    background-color: #dddbdb;
     position:absolute;
     top:10px;
     right:20px;
@@ -383,7 +383,7 @@
 .quickadd_prompt{
     border: 1px solid #000000;
     background-color: #f0f0f0;
-    border-radius:4px;
+    border-radius:12px;
     flex-grow: 1;
     min-width: 0;
     height: 36px;
@@ -415,7 +415,7 @@
     color:white;
     font-size: 16px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 12px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -482,4 +482,28 @@
     .delete-all-tasks a{
         color:white;
     }
+}
+.dark, .dark main{
+    background-color: #121212;
+    color:white;
+}
+.dark .delete-all-tasks, .dark .toolbar button{
+    background-color: #969696;
+}
+.dark .task-card{
+    background-color: #181818;
+}
+.dark .toggle-arrow, .dark .menuu{
+ color:white;
+}
+.dark .subtask-tree::before{
+    border-left: 2px solid white;
+}
+.dark hr{
+    border-top:2px solid white;
+}
+.dark .quickadd_prompt{
+    border: 3px solid rgb(165, 163, 163);
+    background-color: #2c2c2c;
+    color: white;
 }

@@ -108,15 +108,10 @@
     background:#e8f3ff;
     font-weight:bold;
 }
-
-.sidebar .add{
-    color:#a70000;
-}
-
 .sidebar svg{
     min-width:24px;
     min-height:24px;
-    fill:currentColor;
+    fill:currentColor !important;
 }
 
 .sidebar span{
@@ -135,16 +130,22 @@
 .profile {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 80px;
     padding: 14px 14px;
     border-radius: 8px;
-    color: #333;
     transition: .2s;
     cursor: default; 
     user-select: none; 
     color: #6c757d;
 }
-
+.profile div{
+    display:flex;
+    gap:5px;
+}
+.theme-switch{
+    color:black;
+    cursor:pointer;
+}
 li.bottom-item{
     margin-top: auto;
 }
@@ -207,3 +208,25 @@ li.bottom-item{
             display: block;
         }
     }
+
+.dark .sidebar{
+    background-color: #383838;
+}
+.dark #toggle-btn{
+    color:white;
+}
+.dark profile{
+    color: #b1afaf;
+}
+.dark ul li, .dark li a, .dark .app-title{
+    color:white;
+    fill:white;
+}
+.dark .sidebar_dash-dashboard,.dark .sidebar_add-add_task,.dark .sidebar_comp-completed_tasks,.dark .sidebar_statics-statics,.dark .sidebar_projects-projects{
+    color:black;
+    fill:black
+}
+.dark .sidebar a:hover{
+    background:#969696;
+    color:black;
+}

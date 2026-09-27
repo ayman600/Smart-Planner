@@ -199,3 +199,21 @@
         color:white;
     }
 }
+.dark, .dark .dashboard{
+    background-color: #121212;
+    color:white;
+}
+.dark .delete-all-tasks{
+    background-color: #969696;
+}
+.dark .task-card{
+    background-color: #181818;
+    border: 2px solid white;
+    border-left: 6px solid white;
+}
+.dark hr{
+    border-top:2px solid white;
+}
+.dark .menuu{
+    color:white;
+}
