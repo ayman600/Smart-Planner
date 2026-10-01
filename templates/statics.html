@@ -126,4 +126,5 @@
     const charts = {{ charts | tojson }};
     charts.forEach(chart => {createDoughnutChart(chart.id,chart.labels,chart.values,chart.type,chart.indexAxis,'Completed tasks');});
 </script>
+{% block script %}  {{super()}} {% endblock script %}
 {% endblock content %}

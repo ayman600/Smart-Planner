@@ -188,3 +188,14 @@
         transform:translateX(120%);
         opacity:0;}
 }
+.dark, .dark .add-project{
+    background-color: #121212;
+    color:white;
+}
+.dark label{
+    color:rgb(131, 130, 130);
+}
+.dark .add-card input, .dark .add-card select{
+    background-color: #a09898;
+    border: 2px solid rgb(230, 230, 230);
+}

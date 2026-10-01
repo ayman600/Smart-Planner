@@ -105,4 +105,5 @@ document.getElementById('project-card').addEventListener('submit', function(e) {
       clickedButton.style.pointerEvents = 'none'
 });
 </script>
+{% block script %}  {{super()}} {% endblock script %}
 {% endblock content %}

@@ -101,5 +101,5 @@ priority.addEventListener("change", function(){
 });
 
 </script>
-
+{% block script %}  {{super()}} {% endblock script %}
 {% endblock %}

@@ -180,3 +180,12 @@ svg{
         max-width:100% !important;
     }
 }
+.dark, .dark .content{
+    background-color: #121212;
+    color:white;
+}
+.dark .summary-card, .dark .static-item, .dark .chart-container{
+    background: rgb(185, 185, 185);
+    color:black;
+    border:none;
+}
