@@ -132,6 +132,7 @@
 }
 svg {
     flex-shrink: 0;
+    fill: currentColor;
 }
 .title{
     font-weight: bold;
@@ -156,7 +157,6 @@ svg {
   display: flex;
   justify-content: space-between;
   font-size: 0.85rem;
-  color: #333;
   margin-bottom: 10px;
   text-transform: capitalize;
 }
@@ -240,4 +240,15 @@ svg {
         flex:1 1 100%;
         max-width: 100%;
     }
+}
+
+.dark, .dark .projects{
+    background-color: #121212;
+    color:white;
+}
+.dark .project-card{
+    background-color: #202020;
+}
+.dark .menuu{
+ color:white;
 }

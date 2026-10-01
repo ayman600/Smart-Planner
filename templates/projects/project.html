@@ -11,7 +11,7 @@
         <div class="loadbar-fill" style="background-color: {{project.color}};"></div>
     </div>
     <main class="content" id="project-container">
-        <div class="project-infos" style=" border:2px solid {{project.color}};border-top: 8px solid {{project.color}};">
+        <div class="project-infos" style=" border:3px solid {{project.color}};border-top: 8px solid {{project.color}};">
             <div class="header">
                 <div class="status" id="project-{{project.id}}-status-container">
                     {% if project.status == 'active' %}
@@ -60,7 +60,7 @@
         {% if project.milestones %}
             <div class="milestones-container" id="milestones">
                 {% for milestone in project.milestones %}
-                    <div style="border: 1px solid {{project.color}}" class="milestone-container" id="milestone-{{milestone.id}}">
+                    <div style="border: 3px solid {{project.color}}" class="milestone-container" id="milestone-{{milestone.id}}">
                         <div class="milestone-header">
                             <div class="title-wrapper">
                                 <div id="edit-milestone-title-{{milestone.id}}">
@@ -254,4 +254,5 @@ function EditMilestoneTitle(id) {
     span.style.display = (span.style.display === "block" || span.style.display === "") ? "none" : "block";
 }
 </script>
+{% block script %}  {{super()}} {% endblock script %}
 {% endblock content %}

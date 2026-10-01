@@ -164,7 +164,6 @@
     max-width: 900px;
     margin:auto;
     padding:20px;
-    border: 1px solid rgba(128, 128, 128, 0.322);
     border-radius:19px;
 }
 .milestone-header{
@@ -295,7 +294,7 @@ svg{
 }
 button{
     border:none;
-    background-color: white;
+    background-color: transparent;
 }
 .flash-container{
     position:fixed;
@@ -350,4 +349,40 @@ button{
     .add-milestone-section{
         width:90%;
     }
+}
+.dark, .dark .project{
+    background-color: #121212;
+    color:white;
+}
+.dark .project-infos{
+    background-color: #202020;
+}
+.dark .progress-label{
+    color:rgb(167, 165, 165);
+}
+.dark .menuu{
+ color:rgb(110, 107, 107);
+}
+.dark .milestone-container{
+    background-color: #111111;
+}
+.dark .milestone-container svg{
+    fill:white;
+}
+.dark .tasks-tree{
+    border-left: 2px solid white;
+}
+.dark .add-section input{
+    outline: none;
+    border-bottom: 1px solid rgba(102, 95, 95, 0.6);
+    color:white;
+}
+.dark .add-section input:focus{
+    border-bottom: 1px solid white;
+}
+.dark .add-section button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    color:white
 }
