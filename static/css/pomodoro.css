@@ -1,0 +1,48 @@
+.loading-bar{
+    position:fixed;
+    top:0px;
+    left:0px;
+    right:0px;
+    height:3px;
+    z-index:9999
+}
+.loadbar-fill{
+    background-color:#ef4444;
+    position:absolute;
+    top:0px;
+    width: 35%;
+    height:100%;
+    border-radius: 0px 2px 2px 0px;
+    animation: 1.5s ease-in-out 0s infinite normal none running loadbar-slide;
+}
+@keyframes loadbar-slide {
+    0%{left:-35%}
+    100%{left:100%}
+}
+svg{
+    fill:currentColor;
+}
+.main-container{
+    display:flex;
+    min-height:100vh;
+}
+main{
+    flex:1;
+    margin-top:50px;
+    padding:5px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.new{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    gap: 10px;
+}
+.dark {
+    background-color: #121212;
+    color:white;
+}

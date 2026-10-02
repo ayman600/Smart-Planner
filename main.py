@@ -1469,6 +1469,10 @@ def uncheck_task(milestone_id,task_id):
         db.session.rollback()
         return "",404
 
+@app.route("/pomodoro")
+def pomodoro():
+    return render_template('pomodoro.html')
+
 @app.route("/logout")
 def logout():
     if "user_id" not in session:
