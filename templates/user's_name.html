@@ -46,6 +46,10 @@
             font-size:16px;
             cursor:pointer;
         }
+        .dark, .dark .main-container{
+         background-color: #121212;
+         color:white;
+        }
 </style>
 
 {% endblock head %}
@@ -59,9 +63,10 @@
 <form action="#" method="POST">
 <div id="signing_container">
     <input type="text" name="name" placeholder="Drop your name here" required>
-    <input class="submit" type="submit"  value="Start" >
+    <input class="submit" type="submit"  value="Start">
 </div>
 </form>
 </div>
 </div>
+{% block script %} {{super()}} {% endblock script %}
 {%endblock%}

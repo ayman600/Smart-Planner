@@ -5,3 +5,4 @@ instance/
 need_to_add.txt
 .env
 about.txt
+.venv
