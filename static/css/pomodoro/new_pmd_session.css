@@ -1,0 +1,162 @@
+.pomodoro{
+    display:flex;
+    min-height:100vh;
+}
+main{
+    flex:1;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:30px;
+    margin-top: 30px;
+}
+main h1{
+    font-size: 48px;
+    font-weight: bold;
+}
+.add-card{
+    max-width:600px;
+    width: 90%;
+    margin: 10px auto;
+    margin-top: 0px;
+    padding: 35px;
+    border-radius: 20px;
+    background-color: #EF4444;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.288);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: 0.3s;
+    box-sizing: border-box;
+}
+.add-card label{
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+.add-card input, .add-card select{
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    height: 50px;
+}
+.add-card input[type="text"]{
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.add-card input[type="text"]:focus{
+    border-color: #6d4aff;
+}
+.add-card select{
+    width: 100%;
+    padding: 15px;
+    font-size: 17px;
+    cursor: pointer;
+}
+.add-card input[type="date"]{
+    width: 100%;
+    padding: 15px;
+    font-size: 17px;
+    box-sizing: border-box;
+}
+.add-card button{
+    margin-top: 15px;
+
+    padding: 15px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    background: #6d4aff;
+    color: white;
+
+    border: none;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.add-card button:hover{
+    background: #5a38db;
+}
+#tasks-container{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.task-input-group{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
+.task-input-group .remove-task-btn{
+    display:flex;
+    justify-content: center;
+    margin:0;
+    height: 50px;
+}
+.submit{
+        margin-top: 15px;
+
+    padding: 15px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    background: #6d4aff;
+    color: white;
+
+    border: none;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+.time{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+.time input{
+    height: 40px;
+    width:43px;
+    border-radius: 8px;
+    font-size: 26px;
+}
+.time p{
+    margin:0;
+    font-size: 36px;
+    font-weight: bold;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.dark .add-card{
+    background-color: #B91C1C;
+}
+.dark{
+    background-color: #121212;
+    color:white;
+}
+.dark label{
+    color: rgb(218, 217, 217);
+}
+.dark .add-card input, .dark .add-card select{
+    background-color: #d2cbcb;
+    border: 2px solid rgb(230, 230, 230);
+}

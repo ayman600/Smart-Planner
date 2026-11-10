@@ -1474,6 +1474,11 @@ def uncheck_task(milestone_id,task_id):
 def pomodoro():
     return render_template("pomodoro/pmd_dash.html",title="Pomodoro",status="pomodoro",name=session['name'],streak=session['streak'])
 
+@app.route("/pomodoro/new-session",methods=['POST','GET'])
+@login_required
+def new_pmd_session():
+    return render_template("pomodoro/new_pmd_session.html", title="New Session", name=session['name'],streak=session['streak'])
+
 @app.route("/logout")
 def logout():
     if "user_id" not in session:

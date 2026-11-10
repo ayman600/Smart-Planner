@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pomodoro/new_pmd_session.css') }}">
+{% endblock head %}
+{% block content %}
+<div class="pomodoro">
+    {% block sidebar %} {{ super() }} {% endblock sidebar %}
+    <main>
+        <h1>New Session</h1>
+        <form class="add-card">
+            <label>Title</label>
+            <input type="text" name="title" placeholder="math focus...">
+
+            <label>Time</label>
+            <div class="time">
+                <input type="number" name="hours" max="99">
+                <p>h</p>
+                <input type="number" name="minutes" min="5" value="05" required>
+                <p>min</p>
+            </div>
+
+            <label>Description</label>
+            <input type="text" name="Description" placeholder="Objectifs of the session">
+
+            <label>Link a Project</label>
+            <select name="project">
+                {% for proect in projects %}
+                    <option value="{{project.id}}">{{project.title}}</option>
+                {% endfor %}
+            </select>
+
+            <label>Add tasks</label>
+                <button type="button" id="add-task-btn" class="icon-btn"><span class="material-symbols-outlined">add</span></button> 
+                
+            
+            <div id="tasks-container">
+                <div class="task-input-group">
+                    <input type="text" name="tasks" placeholder="New task">
+                    <button type="button" class="remove-task-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20px" width="20px" fill="#e3e3e3"><path d="M8.4,17L7,15.6L10.6,12L7,8.42l1.4-1.4l3.6,3.6l3.58-3.6l1.4,1.4L13.38,12l3.6,3.6L15.58,17L12,13.4L8.4,17Z"/></svg></button>
+                </div>
+            </div>
+
+            <button class="submit" type="submit">Start</button>
+        </form>
+    </main>
+</div>
+<script>
+document.addEventListener('click', (e) => {
+    if (e.target.closest('#add-task-btn')) {
+        const container = document.getElementById('tasks-container');
+        const taskGroup = document.createElement('div');
+        taskGroup.className = 'task-input-group';
+        taskGroup.innerHTML = `
+            <input type="text" name="tasks" placeholder="New task">
+            <button type="button" class="remove-task-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20px" width="20px" fill="#e3e3e3"><path d="M8.4,17L7,15.6L10.6,12L7,8.42l1.4-1.4l3.6,3.6l3.58-3.6l1.4,1.4L13.38,12l3.6,3.6L15.58,17L12,13.4L8.4,17Z"/></svg></button>`;
+        container.appendChild(taskGroup);
+    }
+    const removeBtn = e.target.closest('.remove-task-btn');
+    if (removeBtn) {
+        removeBtn.closest('.task-input-group').remove();
+    }
+});
+document.addEventListener('input', (e) => {
+    if (e.target.name === 'minutes') {
+        let val = parseInt(e.target.value, 10);
+        if (val > 59) e.target.value = 59;
+        if (val < 0) e.target.value = '';
+    }
+});
+document.addEventListener('input', (e) => {
+    if (e.target.name === 'hours') {
+        let val = parseInt(e.target.value, 10);
+        if (val > 99) e.target.value = 99;
+        if (val < 0) e.target.value = '';
+    }
+});
+</script>
+{% block script %} {{ super() }} {% endblock %}
+{% endblock content %}
