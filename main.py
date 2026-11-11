@@ -1474,10 +1474,22 @@ def uncheck_task(milestone_id,task_id):
 def pomodoro():
     return render_template("pomodoro/pmd_dash.html",title="Pomodoro",status="pomodoro",name=session['name'],streak=session['streak'])
 
-@app.route("/pomodoro/new-session",methods=['POST','GET'])
+#! Don't forget to commit before the changing!
+@app.route("/pomodoro/new-session",methods=['GET','POST'])
 @login_required
 def new_pmd_session():
-    return render_template("pomodoro/new_pmd_session.html", title="New Session", name=session['name'],streak=session['streak'])
+    if request.method == "POST":
+        title = request.form["title"]
+        hours = request.form["hours"]
+        minutes = request.form["minutes"]
+        description = request.form["description"]
+        project = request.form["project"]
+        tasks = request.form.getlist("tasks")
+        print(f"{title}, {hours}, {minutes}, {description}, {project}, {tasks}")
+        return render_template("pomodoro/new_pmd_session.html", title="New Session", name=session['name'],streak=session['streak'])
+    projects = Project.query.filter_by(user_id=session['user_id']).all()
+    print(projects)
+    return render_template("pomodoro/new_pmd_session.html", title="New Session", projects=projects, name=session['name'],streak=session['streak'])
 
 @app.route("/logout")
 def logout():

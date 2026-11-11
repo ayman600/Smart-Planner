@@ -15,6 +15,12 @@ main h1{
     font-size: 48px;
     font-weight: bold;
 }
+.pomodoro-icon{
+    height: 1em;
+    width: auto;
+    transform: translateY(0.15em);
+    margin-bottom: 18px;
+}
 .add-card{
     max-width:600px;
     width: 90%;
@@ -63,6 +69,10 @@ main h1{
     font-size: 17px;
     box-sizing: border-box;
 }
+.add-card select{
+    padding-top:0;
+    padding-bottom: 0;
+}
 .add-card button{
     margin-top: 15px;
 
@@ -99,8 +109,11 @@ main h1{
 .task-input-group .remove-task-btn{
     display:flex;
     justify-content: center;
+    align-items: center;
     margin:0;
+    padding:0;
     height: 50px;
+    width: 50px;
 }
 .submit{
         margin-top: 15px;
@@ -145,6 +158,19 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+.add-task{
+    display:flex;
+    gap:10px;
+}
+.add-task button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:0;
+    padding:0;
+    height:40px;
+    width:40px;
 }
 .dark .add-card{
     background-color: #B91C1C;

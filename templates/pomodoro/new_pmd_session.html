@@ -6,8 +6,8 @@
 <div class="pomodoro">
     {% block sidebar %} {{ super() }} {% endblock sidebar %}
     <main>
-        <h1>New Session</h1>
-        <form class="add-card">
+        <h1>New Sessi<svg xmlns="http://www.w3.org/2000/svg" viewBox="35 30 130 150" class="pomodoro-icon"><path d="M 100 45 C 115 25, 140 30, 135 50 C 120 55, 105 45, 100 45 Z" fill="#2e7d32" /><path d="M 100 45 Q 98 35 95 30" stroke="#1b5e20" stroke-width="4" stroke-linecap="round" fill="none" /><circle cx="100" cy="115" r="60" fill="#e53935" /><path d="M 70 80 A 45 45 0 0 1 120 70" stroke="#ff8a80" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.6" /></svg>n</h1>
+        <form class="add-card" action="{{ url_for('new_pmd_session') }}" method="POST">
             <label>Title</label>
             <input type="text" name="title" placeholder="math focus...">
 
@@ -20,23 +20,25 @@
             </div>
 
             <label>Description</label>
-            <input type="text" name="Description" placeholder="Objectifs of the session">
+            <input type="text" name="description" placeholder="Objectifs of the session">
 
             <label>Link a Project</label>
             <select name="project">
-                {% for proect in projects %}
+                {% for project in projects %}
                     <option value="{{project.id}}">{{project.title}}</option>
                 {% endfor %}
             </select>
 
-            <label>Add tasks</label>
-                <button type="button" id="add-task-btn" class="icon-btn"><span class="material-symbols-outlined">add</span></button> 
+            <div class="add-task">
+                <label>Add tasks</label>
+                <button type="button" id="add-task-btn" class="icon-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="40px" width="24px" fill="#e3e3e3"><path d="M11,13H5V11h6V5h2v6h6v2H13v6H11V13Z"/></svg></button> 
+            </div>
                 
             
             <div id="tasks-container">
                 <div class="task-input-group">
                     <input type="text" name="tasks" placeholder="New task">
-                    <button type="button" class="remove-task-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20px" width="20px" fill="#e3e3e3"><path d="M8.4,17L7,15.6L10.6,12L7,8.42l1.4-1.4l3.6,3.6l3.58-3.6l1.4,1.4L13.38,12l3.6,3.6L15.58,17L12,13.4L8.4,17Z"/></svg></button>
+                    <button type="button" class="remove-task-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="34px" width="34px" fill="#e3e3e3"><path d="M8.4,17L7,15.6L10.6,12L7,8.42l1.4-1.4l3.6,3.6l3.58-3.6l1.4,1.4L13.38,12l3.6,3.6L15.58,17L12,13.4L8.4,17Z"/></svg></button>
                 </div>
             </div>
 
@@ -52,7 +54,7 @@ document.addEventListener('click', (e) => {
         taskGroup.className = 'task-input-group';
         taskGroup.innerHTML = `
             <input type="text" name="tasks" placeholder="New task">
-            <button type="button" class="remove-task-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20px" width="20px" fill="#e3e3e3"><path d="M8.4,17L7,15.6L10.6,12L7,8.42l1.4-1.4l3.6,3.6l3.58-3.6l1.4,1.4L13.38,12l3.6,3.6L15.58,17L12,13.4L8.4,17Z"/></svg></button>`;
+            <button type="button" class="remove-task-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="34px" width="34px" fill="#e3e3e3"><path d="M8.4,17L7,15.6L10.6,12L7,8.42l1.4-1.4l3.6,3.6l3.58-3.6l1.4,1.4L13.38,12l3.6,3.6L15.58,17L12,13.4L8.4,17Z"/></svg></button>`;
         container.appendChild(taskGroup);
     }
     const removeBtn = e.target.closest('.remove-task-btn');
