@@ -13,7 +13,7 @@
 
             <label>Time</label>
             <div class="time">
-                <input type="number" name="hours" max="99">
+                <input type="number" name="hours" max="99" value="00">
                 <p>h</p>
                 <input type="number" name="minutes" min="5" value="05" required>
                 <p>min</p>
@@ -24,6 +24,7 @@
 
             <label>Link a Project</label>
             <select name="project">
+                    <option>None</option>
                 {% for project in projects %}
                     <option value="{{project.id}}">{{project.title}}</option>
                 {% endfor %}

@@ -27,7 +27,7 @@ tasks=None
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///horizons.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
-from models import CompletedTask, User, Task, AISuggestions, SubTask, Project, Milestone
+from models import CompletedTask, User, Task, AISuggestions, SubTask, Project, Milestone, Pomodoro
 with app.app_context():
     db.create_all()
 ai_models=AIModels()
@@ -285,7 +285,7 @@ def dashboard():
         session.clear()
         return redirect(url_for("log_in"))
     name=session['name']
-    query = Task.query.filter_by(user_id=session["user_id"], milestone_id=None)
+    query = Task.query.filter_by(user_id=session["user_id"], milestone_id=None, pomodoro_id=None)
     if sort == "priority":
         query = query.order_by(case((Task.priority == "High", 1),(Task.priority == "Medium", 2),(Task.priority == "Low", 3),))
     elif sort == "name":
@@ -1474,19 +1474,27 @@ def uncheck_task(milestone_id,task_id):
 def pomodoro():
     return render_template("pomodoro/pmd_dash.html",title="Pomodoro",status="pomodoro",name=session['name'],streak=session['streak'])
 
-#! Don't forget to commit before the changing!
 @app.route("/pomodoro/new-session",methods=['GET','POST'])
 @login_required
 def new_pmd_session():
     if request.method == "POST":
-        title = request.form["title"]
-        hours = request.form["hours"]
-        minutes = request.form["minutes"]
-        description = request.form["description"]
-        project = request.form["project"]
-        tasks = request.form.getlist("tasks")
-        print(f"{title}, {hours}, {minutes}, {description}, {project}, {tasks}")
-        return render_template("pomodoro/new_pmd_session.html", title="New Session", name=session['name'],streak=session['streak'])
+        try:
+            user_id = session["user_id"]
+            title = request.form["title"]
+            hours = request.form["hours"]
+            minutes = request.form["minutes"]
+            description = request.form["description"]
+            project_id = request.form["project"]
+            tasks = request.form.getlist("tasks")
+            pomodoro = Pomodoro(user_id=user_id, title=title, description=description, hours=hours, minutes=minutes, project_id=project_id)
+            db.session.add(pomodoro)
+            for task in tasks:
+                new_task = Task(title=task,user_id=user_id,pomodoro_id=pomodoro.id)
+                db.session.add(new_task)
+            db.session.commit()
+            return "<p>Message: Success</p>"
+        except Exception as e:
+            return f'''<p>Message: Error; {e}</p>'''
     projects = Project.query.filter_by(user_id=session['user_id']).all()
     print(projects)
     return render_template("pomodoro/new_pmd_session.html", title="New Session", projects=projects, name=session['name'],streak=session['streak'])

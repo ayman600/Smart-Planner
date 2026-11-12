@@ -35,6 +35,7 @@ class Task(db.Model):
     evaluate = db.Column(db.Boolean, default=False)
     subtasks = db.relationship('SubTask', backref='parent_task', lazy=True, cascade="all, delete-orphan")
     milestone_id = db.Column(db.Integer, db.ForeignKey("milestone.id"), nullable=True)
+    pomodoro_id = db.Column(db.Integer, db.ForeignKey("pomodoro.id"), nullable=True)
     created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     completed = db.Column(db.Boolean, default=False)
 class SubTask(db.Model):
@@ -102,6 +103,7 @@ class Project(db.Model):
             return "Yesterday"
         return self.updated_at.strftime("%d-%m-%Y")
     milestones = db.relationship('Milestone', backref='project', lazy=True, cascade="all, delete-orphan")
+    pmd_sessions = db.relationship('Pomodoro', backref='project', lazy=True, cascade="all, delete-orphan")
     completed_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 class Milestone(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -122,3 +124,12 @@ class Milestone(db.Model):
             return "Yesterday"
         return self.updated_at.strftime("%d-%m-%Y")
     status = db.Column(db.String(20), default="active")
+class Pomodoro(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"),nullable=False)
+    title = db.Column(db.String(300), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    hours = db.Column(db.Integer, nullable=True)
+    minutes = db.Column(db.Integer, nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey("project.id"),nullable=True)
+    tasks = db.relationship("Task", backref="pomodoro", lazy=True, cascade="all, delete-orphan")
