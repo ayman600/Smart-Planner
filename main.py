@@ -1472,7 +1472,8 @@ def uncheck_task(milestone_id,task_id):
 @app.route("/pomodoro")
 @login_required
 def pomodoro():
-    return render_template("pomodoro/pmd_dash.html",title="Pomodoro",status="pomodoro",name=session['name'],streak=session['streak'])
+    pomodoro_sessions = Pomodoro.query.filter_by(user_id=session["user_id"]).all()
+    return render_template("pomodoro/pmd_dash.html",title="Pomodoro",status="pomodoro",name=session['name'],streak=session['streak'],sessions=pomodoro_sessions)
 
 @app.route("/pomodoro/new-session",methods=['GET','POST'])
 @login_required

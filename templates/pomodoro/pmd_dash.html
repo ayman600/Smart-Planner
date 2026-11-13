@@ -5,11 +5,37 @@
 {% block content %}
 <div class="pomodoro">
     {% block sidebar %} {{super()}} {% endblock sidebar %}
-    <main>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="78px" width="78px" fill="#fffff"><path d="M7.49,20.3q-1.64-0.7-2.86-1.93T2.7,15.51T2,12T2.7,8.49T4.63,5.63T7.49,3.7T11,3q0.53,0 1.01,0.06T13,3.25V5.3q-0.5-0.15-0.99-0.23T11,5Q8.05,5 6.03,7.02T4,12t2.03,4.98T11,19t4.98-2.02T18,12q0-0.28-0.02-0.5Q17.95,11.27 17.9,11h2.05Q20,11.27 20,11.5T20,12q0,1.88-0.7,3.51t-1.93,2.86T14.51,20.3T11,21T7.49,20.3Zm6.31-4.1L10,12.4V7h2v4.6l3.2,3.2l-1.4,1.4ZM18,9V6H15V4h3V1h2V4h3V6H20V9H18Z"/></svg>
-        <a href="{{ url_for('new_pmd_session') }}" class="btn btn-info add_milestone"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/></svg><span>New Session</span></a>
-
-    </main>
+    {% if sessions %}
+        <div class="sessions">
+            <h1>Sessions</h1>
+            {% for session in sessions %}
+                <div class="session">
+                    <div class="first-row">
+                        <span>{{ session.title }}</span>
+                        <span style="color:red; font-weight: bold; font-size: 26px;">{{ "%02d"|format(session.hours) }}:{{ "%02d"|format(session.minutes) }}</span>
+                    </div>
+                    <span>{{ session.description }}</span>
+                </div>
+            {% endfor %}
+            <div>
+                <a href="{{ url_for('new_pmd_session') }}" class="btn btn-info add_milestone"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/></svg><span>New Session</span></a>
+            </div>
+        </div>
+    {% else %}
+        <main>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="78px" width="78px" fill="#fffff"><path d="M7.49,20.3q-1.64-0.7-2.86-1.93T2.7,15.51T2,12T2.7,8.49T4.63,5.63T7.49,3.7T11,3q0.53,0 1.01,0.06T13,3.25V5.3q-0.5-0.15-0.99-0.23T11,5Q8.05,5 6.03,7.02T4,12t2.03,4.98T11,19t4.98-2.02T18,12q0-0.28-0.02-0.5Q17.95,11.27 17.9,11h2.05Q20,11.27 20,11.5T20,12q0,1.88-0.7,3.51t-1.93,2.86T14.51,20.3T11,21T7.49,20.3Zm6.31-4.1L10,12.4V7h2v4.6l3.2,3.2l-1.4,1.4ZM18,9V6H15V4h3V1h2V4h3V6H20V9H18Z"/></svg>
+            <a href="{{ url_for('new_pmd_session') }}" class="btn btn-info add_milestone"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/></svg><span>New Session</span></a>
+        </main>
+    {% endif %}
 </div>
 {% block script %} {{ super() }}  {% endblock script %}
 {% endblock content %}
+
+
+ ---------------------------------------------------
+|        Period                                     |
+|        title                                      |
+|        description                                |
+|                                                   |
+|                                                   |
+ ---------------------------------------------------
