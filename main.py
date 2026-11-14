@@ -286,6 +286,8 @@ def dashboard():
         return redirect(url_for("log_in"))
     name=session['name']
     query = Task.query.filter_by(user_id=session["user_id"], milestone_id=None, pomodoro_id=None)
+    # for ann in query:
+    #     print(f"=============================={ann}")
     if sort == "priority":
         query = query.order_by(case((Task.priority == "High", 1),(Task.priority == "Medium", 2),(Task.priority == "Low", 3),))
     elif sort == "name":
@@ -868,7 +870,7 @@ def projects():
         projects = Project.query.filter_by(user_id=session['user_id']).all()
     except Exception as e:
         print(f"Error: {e}")
-    return render_template("projects/projects.html", projects=projects, name=name, title="Projects", streak=session['streak'])
+    return render_template("projects/projects.html", projects=projects, name=name, title="Projects", status="projects", streak=session['streak'])
         
 @app.route('/project/<int:project_id>')
 @login_required
@@ -1489,11 +1491,12 @@ def new_pmd_session():
             tasks = request.form.getlist("tasks")
             pomodoro = Pomodoro(user_id=user_id, title=title, description=description, hours=hours, minutes=minutes, project_id=project_id)
             db.session.add(pomodoro)
+            db.session.flush()
             for task in tasks:
                 new_task = Task(title=task,user_id=user_id,pomodoro_id=pomodoro.id)
                 db.session.add(new_task)
             db.session.commit()
-            return "<p>Message: Success</p>"
+            return redirect(url_for("pomodoro"))
         except Exception as e:
             return f'''<p>Message: Error; {e}</p>'''
     projects = Project.query.filter_by(user_id=session['user_id']).all()

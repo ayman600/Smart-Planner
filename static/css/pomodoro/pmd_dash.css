@@ -10,6 +10,10 @@ main{
     justify-content: center;
     gap:15px;
 }
+span{
+    text-align: center;
+    word-break: break-word;
+}
 .sessions{
     width:100%;
     margin-top:60px;
@@ -30,17 +34,23 @@ main{
 }
 .first-row {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
+    gap: 15px;
 }
-
-.first-row span:first-child {
+.first-row span:first-child{
+    margin-bottom: auto;
+}
+.first-row span:nth-child(2) {
     grid-column: 2;
+    text-align: center;
+    word-break: break-word;
 }
 
 .first-row span:last-child {
     grid-column: 3;
     justify-self: end;
+    margin-bottom: auto;
 }
 .dark, .dark.pomodoro{
     background-color: #121212;

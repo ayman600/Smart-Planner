@@ -11,10 +11,13 @@
             {% for session in sessions %}
                 <div class="session">
                     <div class="first-row">
+                        <span>{{ session.tasks|length }} {% if session.tasks|length == 1 or session.tasks|length == 0%}task{% else %}tasks{% endif %}</span>
                         <span>{{ session.title }}</span>
-                        <span style="color:red; font-weight: bold; font-size: 26px;">{{ "%02d"|format(session.hours) }}:{{ "%02d"|format(session.minutes) }}</span>
+                        <span style="color:red; font-weight: bold;">{{ "%02d"|format(session.hours) }}:{{ "%02d"|format(session.minutes) }}</span>
                     </div>
-                    <span>{{ session.description }}</span>
+                    {% if session.description %}
+                        <span><strong>Goal:</strong> {{ session.description }}</span>
+                    {% endif %}
                 </div>
             {% endfor %}
             <div>
@@ -30,12 +33,3 @@
 </div>
 {% block script %} {{ super() }}  {% endblock script %}
 {% endblock content %}
-
-
- ---------------------------------------------------
-|        Period                                     |
-|        title                                      |
-|        description                                |
-|                                                   |
-|                                                   |
- ---------------------------------------------------

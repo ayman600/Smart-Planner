@@ -222,7 +222,7 @@ li.bottom-item{
     color:white;
     fill:white;
 }
-.dark .sidebar_dash-dashboard,.dark .sidebar_add-add_task,.dark .sidebar_comp-completed_tasks,.dark .sidebar_statics-statics,.dark .sidebar_projects-projects{
+.dark .sidebar_dash-dashboard,.dark .sidebar_add-add_task,.dark .sidebar_comp-completed_tasks,.dark .sidebar_statics-statics,.dark .sidebar_projects-projects,.dark .sidebar_pmd-pomodoro{
     color:black;
     fill:black
 }
