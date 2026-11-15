@@ -1,0 +1,49 @@
+.main-container{
+    display:flex;
+    min-height:100vh;
+}
+.session{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    justify-content: center;
+    align-items: center;
+}
+.timer{
+    display: flex;
+    font-size: 76px;
+    font-weight: bold;
+    gap:5px;
+}
+.controls{
+    display: flex;
+    gap:10px;
+}
+.tasks{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    border:3px solid rgb(68, 211, 6);
+    border-radius: 28px;
+    padding:20px;
+    align-items: center;
+    min-width:300px;
+    max-width:500px;
+}
+@media  (max-width:800px) {
+    .tasks{
+        max-width:400px;
+    }
+    
+}
+.tasks div{
+    display: flex;
+    gap:5px;
+    font-size: 18px;
+}
+.dark{
+    background-color: #121212;
+    color:white;
+}

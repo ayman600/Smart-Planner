@@ -1496,7 +1496,8 @@ def new_pmd_session():
                 new_task = Task(title=task,user_id=user_id,pomodoro_id=pomodoro.id)
                 db.session.add(new_task)
             db.session.commit()
-            return redirect(url_for("pomodoro"))
+            title = title if title else "Pomodoro ion"
+            return render_template('pomodoro/pmd_session.html', title=title, session=pomodoro, name=session["name"])
         except Exception as e:
             return f'''<p>Message: Error; {e}</p>'''
     projects = Project.query.filter_by(user_id=session['user_id']).all()
