@@ -13,17 +13,18 @@
             <button id="start" class="btn btn-primary">Start</button>
             <button id="pause" class="btn btn-secondary">Pause</button>
             <button id="reset" class="btn btn-danger">Reset</button>
+            <button id="finish" class="btn btn-success">Finish</button>
         </div>
         <div class="tasks">
             <h1>Tasks</h1>
             {% for task in session.tasks %} 
-                <div><input type="checkbox"><span>{{ task }}</span><div>
+                <div><input type="checkbox"><span>{{ task.title }}</span></div>
             {% endfor %}
         </div>
     </div>
 </main>
 {% block script %} {{super()}} {% endblock script %}
 <script>
-    // ############################ Need controls working
+    // ###############
 </script>
 {% endblock content %}
