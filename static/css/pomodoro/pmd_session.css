@@ -16,9 +16,27 @@
     font-weight: bold;
     gap:5px;
 }
+.timer.active {
+    color:rgb(122, 233, 122)
+}
+.timer.warning{
+    color:rgb(214, 12, 12)
+}
 .controls{
     display: flex;
     gap:10px;
+}
+.finish-banner{
+    padding:0;
+    margin-top: 20px;
+    display:flex;
+    flex-direction: column;
+    gap:20px;
+    justify-content: center;
+    align-items: center;
+}
+.finish-banner h2{
+    color:rgb(33, 210, 33)
 }
 .tasks{
     margin-top: 30px;
