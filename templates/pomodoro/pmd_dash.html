@@ -13,13 +13,13 @@
                     <div class="first-row">
                         <div class="tasks-info">
                             <span>{{ session.tasks|length }} {% if session.tasks|length == 1 or session.tasks|length == 0%}task{% else %}tasks{% endif %}</span>
-                            <span>{{ session.tasks | selectattr("completed") | list | length}} Completed {% if session.tasks | selectattr("completed") | list | length == 1 or session.tasks | selectattr("completed") | list | length == 0%}task{% else %}tasks{% endif %}</span>
+                            <span>{{ session.tasks | selectattr("completed") | list | length}} Completed</span>
                         </div>
                         <span>{{ session.title }}</span>
                         <span style="color:red; font-weight: bold;">{{ "%02d"|format(session.hours) }}:{{ "%02d"|format(session.minutes) }}</span>
                     </div>
                     {% if session.description %}
-                        <span><strong>Goal:</strong> {{ session.description }}</span>
+                        <span class="goal"><strong>Goal:</strong> {{ session.description }}</span>
                     {% endif %}
                 </div>
             {% endfor %}

@@ -13,7 +13,7 @@
 
             <label>Time</label>
             <div class="ruler-wrapper">
-                <canvas class="canvas" id="time-ruler" width="380" height="75"></canvas>
+                <canvas class="canvas" id="time-ruler" height="75"></canvas>
             </div>
             <div class="time">
                 <input type="number" name="hours" max="99" value="00">
@@ -82,15 +82,35 @@ document.addEventListener('input', (e) => {
 
 
 
-const hoursInput = document.querySelector('input[name="hours"]');
+    const hoursInput = document.querySelector('input[name="hours"]');
     const minutesInput = document.querySelector('input[name="minutes"]');
     const secondsInput = document.querySelector('input[name="seconds"]');
     const canvas = document.getElementById("time-ruler");
     const ctx = canvas.getContext("2d");
+
     const MIN_SECONDS = 300;
-    const PX_PER_MINUTE = 16;
+    const PX_PER_MINUTE = 18;
     let currentSeconds = 300;
     let lastMinute = 5;
+    let cssWidth = 300;
+    let cssHeight = 75;
+
+    // 1. Auto-resize internal canvas resolution for crisp Retina/responsive rendering
+    function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        cssWidth = rect.width;
+        cssHeight = rect.height;
+        canvas.width = Math.round(cssWidth * dpr);
+        canvas.height = Math.round(cssHeight * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        drawRuler();
+    }
+
+    new ResizeObserver(resizeCanvas).observe(canvas);
+
+    // Subtle mechanical click
     let audioCtx = null;
     function playTick() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -109,8 +129,8 @@ const hoursInput = document.querySelector('input[name="hours"]');
     }
 
     function drawRuler() {
-        const w = canvas.width;
-        const h = canvas.height;
+        const w = cssWidth;
+        const h = cssHeight;
         const centerX = w / 2;
 
         ctx.clearRect(0, 0, w, h);
@@ -127,24 +147,29 @@ const hoursInput = document.querySelector('input[name="hours"]');
             const x = centerX + (m - currentMinutes) * PX_PER_MINUTE;
             const isMajor = m % 5 === 0;
             const isHour = m % 60 === 0;
+
             ctx.beginPath();
-            ctx.moveTo(x, h - 10);
-            ctx.lineTo(x, h - (isHour ? 38 : isMajor ? 30 : 20));
+            ctx.moveTo(x, h - 8);
+            ctx.lineTo(x, h - (isHour ? h * 0.48 : isMajor ? h * 0.38 : h * 0.24));
             ctx.strokeStyle = isHour ? "#ff4d4d" : isMajor ? "#ffffff" : "#666666";
             ctx.lineWidth = isMajor ? 2 : 1;
             ctx.stroke();
+
             if (isMajor) {
                 ctx.fillStyle = isHour ? "#ff4d4d" : "#cccccc";
                 const label = (m > 0 && isHour) ? `${m / 60}h` : `${m}m`;
-                ctx.fillText(label, x, 24);
+                ctx.fillText(label, x, Math.min(24, h * 0.32));
             }
         }
+
+        // Fixed Center Red Needle
         ctx.beginPath();
         ctx.moveTo(centerX, 0);
         ctx.lineTo(centerX, h);
         ctx.strokeStyle = "#ec0a0a";
         ctx.lineWidth = 2.5;
         ctx.stroke();
+
         ctx.fillStyle = "#ec0a0a";
         ctx.beginPath();
         ctx.moveTo(centerX - 6, 0);
@@ -168,22 +193,17 @@ const hoursInput = document.querySelector('input[name="hours"]');
         currentSeconds = Math.max(MIN_SECONDS, total);
         drawRuler();
     }
+
+    // 2. Smooth Touch & Mouse Drag with Momentum Inertia
     let isDragging = false;
     let prevX = 0;
+    let velocity = 0;
+    let lastTime = 0;
+    let inertiaFrame = null;
 
-    canvas.addEventListener("pointerdown", (e) => {
-        isDragging = true;
-        prevX = e.clientX;
-        canvas.setPointerCapture(e.pointerId);
-    });
-
-    canvas.addEventListener("pointermove", (e) => {
-        if (!isDragging) return;
-        const deltaX = e.clientX - prevX;
-        prevX = e.clientX;
+    function applyDelta(deltaX) {
         const deltaSeconds = (-deltaX / PX_PER_MINUTE) * 60;
         currentSeconds = Math.max(MIN_SECONDS, currentSeconds + deltaSeconds);
-
         updateInputsFromSeconds(currentSeconds);
         drawRuler();
 
@@ -192,17 +212,61 @@ const hoursInput = document.querySelector('input[name="hours"]');
             playTick();
             lastMinute = currentMin;
         }
-    });
+    }
 
-    canvas.addEventListener("pointerup", (e) => {
-        isDragging = false;
-        canvas.releasePointerCapture(e.pointerId);
+    function snapToMinute() {
         currentSeconds = Math.round(currentSeconds / 60) * 60;
         updateInputsFromSeconds(currentSeconds);
         drawRuler();
+    }
+
+    function runInertia() {
+        if (Math.abs(velocity) < 0.2) {
+            snapToMinute();
+            return;
+        }
+        applyDelta(velocity);
+        velocity *= 0.92; // Friction decay
+        inertiaFrame = requestAnimationFrame(runInertia);
+    }
+
+    canvas.addEventListener("pointerdown", (e) => {
+        cancelAnimationFrame(inertiaFrame);
+        isDragging = true;
+        prevX = e.clientX;
+        lastTime = performance.now();
+        velocity = 0;
+        canvas.setPointerCapture(e.pointerId);
     });
+
+    canvas.addEventListener("pointermove", (e) => {
+        if (!isDragging) return;
+        const now = performance.now();
+        const deltaX = e.clientX - prevX;
+        const dt = Math.max(1, now - lastTime);
+
+        velocity = (deltaX / dt) * 16; // Track px per frame for flick momentum
+        prevX = e.clientX;
+        lastTime = now;
+
+        applyDelta(deltaX);
+    });
+
+    function endDrag(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        if (canvas.hasPointerCapture(e.pointerId)) {
+            canvas.releasePointerCapture(e.pointerId);
+        }
+        inertiaFrame = requestAnimationFrame(runInertia);
+    }
+
+    canvas.addEventListener("pointerup", endDrag);
+    canvas.addEventListener("pointercancel", endDrag);
+
     canvas.addEventListener("wheel", (e) => {
         e.preventDefault();
+        cancelAnimationFrame(inertiaFrame);
         const step = e.deltaY > 0 ? -60 : 60;
         currentSeconds = Math.max(MIN_SECONDS, currentSeconds + step);
         updateInputsFromSeconds(currentSeconds);
@@ -211,9 +275,14 @@ const hoursInput = document.querySelector('input[name="hours"]');
     }, { passive: false });
 
     [hoursInput, minutesInput, secondsInput].forEach(inp => {
-        inp.addEventListener("input", syncRulerFromInputs);
+        inp.addEventListener("input", () => {
+            cancelAnimationFrame(inertiaFrame);
+            syncRulerFromInputs();
+        });
     });
+
     syncRulerFromInputs();
+    resizeCanvas();
 </script>
 {% block script %} {{ super() }} {% endblock %}
 {% endblock content %}

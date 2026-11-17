@@ -38,19 +38,47 @@ span{
     align-items: center;
     gap: 15px;
 }
-.first-row span:first-child{
+.first-row > .tasks-info {
+    grid-column: 1;
+    justify-self: start;
     margin-bottom: auto;
 }
-.first-row span:nth-child(2) {
+.first-row > span:nth-child(2) {
     grid-column: 2;
     text-align: center;
     word-break: break-word;
 }
-
-.first-row span:last-child {
+.first-row > span:last-child {
     grid-column: 3;
     justify-self: end;
     margin-bottom: auto;
+}
+.tasks-info span {
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .first-row {
+        grid-template-columns: 1fr auto;
+        row-gap: 10px;
+    }
+    .first-row > span:nth-child(2) {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        font-size: 22px;
+        font-weight: bold;
+    }
+    .first-row > .tasks-info {
+        grid-column: 1;
+        grid-row: 2;
+    }
+    .first-row > span:last-child {
+        grid-column: 2;
+        grid-row: 2;
+    }
+}
+.goal{
+    text-align: start;
 }
 .tasks-info{
     margin-right: auto;
