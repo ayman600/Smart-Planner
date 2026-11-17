@@ -1,6 +1,5 @@
 # Smart Planner
- An intelligent and responsive tasks management web application built with Flask and SQLite.  
- note: This project is for Horizons.
+ An intelligent and responsive tasks management web application built with Flask and SQLite.
 
 --------------
 ## Why I built it:
@@ -26,6 +25,7 @@ v3 : Full web interface built with Flask, moving from CSV to SQLAlchemy & SQLite
 *   **Project Management:** Smart project management, (add, edit, delete), orginazed with milestones.
 *   **Quick Add:** Quick add tasks easily by describing it, and generate full projects using AI.
 *   **Weekly Summary:** Recieve an email every week contain the sammary of your progress and actions.
+*   **Pomodoro Integration:** Set focus sessions wih tasks to do.
 *   **Statistics:** Track your productivity with a clear visual analytics.
 *   **Responsive Interface:** A clean, modern user interface optimized for desktop and mobile screens.
 
