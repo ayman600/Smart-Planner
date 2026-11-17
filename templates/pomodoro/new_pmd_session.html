@@ -12,10 +12,13 @@
             <input type="text" name="title" placeholder="math focus...">
 
             <label>Time</label>
+            <div class="ruler-wrapper">
+                <canvas class="canvas" id="time-ruler" width="380" height="75"></canvas>
+            </div>
             <div class="time">
                 <input type="number" name="hours" max="99" value="00">
                 <p>:</p>
-                <input type="number" name="minutes" min="5" max="59" value="05" required>
+                <input type="number" name="minutes" max="59" value="05" required>
                 <p>:</p>
                 <input type="number" name="seconds" max="59" value="00">
             </div>
@@ -76,6 +79,141 @@ document.addEventListener('input', (e) => {
         if (val < 0) e.target.value = '';
     }
 });
+
+
+
+const hoursInput = document.querySelector('input[name="hours"]');
+    const minutesInput = document.querySelector('input[name="minutes"]');
+    const secondsInput = document.querySelector('input[name="seconds"]');
+    const canvas = document.getElementById("time-ruler");
+    const ctx = canvas.getContext("2d");
+    const MIN_SECONDS = 300;
+    const PX_PER_MINUTE = 16;
+    let currentSeconds = 300;
+    let lastMinute = 5;
+    let audioCtx = null;
+    function playTick() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(1100, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.015);
+        gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.015);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.016);
+    }
+
+    function drawRuler() {
+        const w = canvas.width;
+        const h = canvas.height;
+        const centerX = w / 2;
+
+        ctx.clearRect(0, 0, w, h);
+
+        const currentMinutes = currentSeconds / 60;
+        const visibleMinutes = Math.ceil(w / PX_PER_MINUTE / 2) + 2;
+        const startMin = Math.max(0, Math.floor(currentMinutes - visibleMinutes));
+        const endMin = Math.ceil(currentMinutes + visibleMinutes);
+
+        ctx.textAlign = "center";
+        ctx.font = "bold 12px system-ui, sans-serif";
+
+        for (let m = startMin; m <= endMin; m++) {
+            const x = centerX + (m - currentMinutes) * PX_PER_MINUTE;
+            const isMajor = m % 5 === 0;
+            const isHour = m % 60 === 0;
+            ctx.beginPath();
+            ctx.moveTo(x, h - 10);
+            ctx.lineTo(x, h - (isHour ? 38 : isMajor ? 30 : 20));
+            ctx.strokeStyle = isHour ? "#ff4d4d" : isMajor ? "#ffffff" : "#666666";
+            ctx.lineWidth = isMajor ? 2 : 1;
+            ctx.stroke();
+            if (isMajor) {
+                ctx.fillStyle = isHour ? "#ff4d4d" : "#cccccc";
+                const label = (m > 0 && isHour) ? `${m / 60}h` : `${m}m`;
+                ctx.fillText(label, x, 24);
+            }
+        }
+        ctx.beginPath();
+        ctx.moveTo(centerX, 0);
+        ctx.lineTo(centerX, h);
+        ctx.strokeStyle = "#ec0a0a";
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.fillStyle = "#ec0a0a";
+        ctx.beginPath();
+        ctx.moveTo(centerX - 6, 0);
+        ctx.lineTo(centerX + 6, 0);
+        ctx.lineTo(centerX, 8);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    function updateInputsFromSeconds(sec) {
+        const rounded = Math.round(sec);
+        hoursInput.value = String(Math.floor(rounded / 3600)).padStart(2, "0");
+        minutesInput.value = String(Math.floor((rounded % 3600) / 60)).padStart(2, "0");
+        secondsInput.value = String(rounded % 60).padStart(2, "0");
+    }
+
+    function syncRulerFromInputs() {
+        const total = (parseInt(hoursInput.value || 0) * 3600) +
+                      (parseInt(minutesInput.value || 0) * 60) +
+                      parseInt(secondsInput.value || 0);
+        currentSeconds = Math.max(MIN_SECONDS, total);
+        drawRuler();
+    }
+    let isDragging = false;
+    let prevX = 0;
+
+    canvas.addEventListener("pointerdown", (e) => {
+        isDragging = true;
+        prevX = e.clientX;
+        canvas.setPointerCapture(e.pointerId);
+    });
+
+    canvas.addEventListener("pointermove", (e) => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - prevX;
+        prevX = e.clientX;
+        const deltaSeconds = (-deltaX / PX_PER_MINUTE) * 60;
+        currentSeconds = Math.max(MIN_SECONDS, currentSeconds + deltaSeconds);
+
+        updateInputsFromSeconds(currentSeconds);
+        drawRuler();
+
+        const currentMin = Math.floor(currentSeconds / 60);
+        if (currentMin !== lastMinute) {
+            playTick();
+            lastMinute = currentMin;
+        }
+    });
+
+    canvas.addEventListener("pointerup", (e) => {
+        isDragging = false;
+        canvas.releasePointerCapture(e.pointerId);
+        currentSeconds = Math.round(currentSeconds / 60) * 60;
+        updateInputsFromSeconds(currentSeconds);
+        drawRuler();
+    });
+    canvas.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        const step = e.deltaY > 0 ? -60 : 60;
+        currentSeconds = Math.max(MIN_SECONDS, currentSeconds + step);
+        updateInputsFromSeconds(currentSeconds);
+        drawRuler();
+        playTick();
+    }, { passive: false });
+
+    [hoursInput, minutesInput, secondsInput].forEach(inp => {
+        inp.addEventListener("input", syncRulerFromInputs);
+    });
+    syncRulerFromInputs();
 </script>
 {% block script %} {{ super() }} {% endblock %}
 {% endblock content %}

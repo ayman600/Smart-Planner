@@ -145,6 +145,7 @@ main h1{
     width:43px;
     border-radius: 8px;
     font-size: 26px;
+    text-align: center;
 }
 .time p{
     margin:0;
@@ -173,9 +174,6 @@ input[type=number] {
     height:40px;
     width:40px;
 }
-/* .dark .add-card{
-    background-color: #B91C1C;
-} */
 .dark{
     background-color: #121212;
     color:white;
@@ -186,4 +184,21 @@ input[type=number] {
 .dark .add-card input, .dark .add-card select{
     background-color: #d2cbcb;
     border: 2px solid rgb(230, 230, 230);
+}
+.ruler-wrapper{
+    width:100%;
+    display:flex;
+    justify-content: center;
+    margin:10px 0;
+}
+.canvas{
+    cursor: ew-resize; 
+    border-radius: 12px; 
+    background: #1e1e1e; 
+    border: 3px solid #5b5b5b;
+}
+@media (max-width:800px) {
+    .add-card{
+        width:96%;
+    }
 }
