@@ -5,34 +5,34 @@
 {% block content %}
 <main class="main-container">
     {% block sidebar %} {{ super() }} {% endblock %}
-    <div class="session">
+    <form class="session" action="{{url_for('pmd_session')}}" method="POST">
         <h1>{{session.title}}</h1>
         <div class="timer">
-            <p id="hours">{{ "%02d"|format(session.hours) }}</p>:<p id="minutes">{{ "%02d"|format(session.minutes) }}</p>:<p id="seconds">00</p>
+            <p id="hours">{{ "%02d"|format(session.hours) }}</p>:<p id="minutes">{{ "%02d"|format(session.minutes) }}</p>:<p id="seconds">{{ "%02d"|format(session.seconds) }}</p>
         </div>
         <div class="controls">
-            <button id="start" class="btn btn-primary">Start</button>
-            <button id="pause" class="btn btn-secondary">Pause</button>
-            <button id="reset" class="btn btn-danger">Reset</button>
-            <button id="finish" class="btn btn-success">Finish</button>
+            <button id="start" class="btn btn-primary" type="button">Start</button>
+            <button id="pause" class="btn btn-secondary" type="button">Pause</button>
+            <button id="reset" class="btn btn-danger" type="button">Reset</button>
+            <button id="finish" class="btn btn-success" type="button">Finish</button>
         </div>
         <div id="finish-banner" class="finish-banner" style="display: none;">
             <h2>Pomodoro Session Finished!</h2>
-            <a href="{{ url_for('pomodoro') }}"><button class="btn btn-primary">Go to Dashboard</button></a>
+            <button type="submit" class="btn btn-primary">Go to Dashboard</button>
         </div>
         {% if session.tasks %}
             <div class="tasks">
                 <h1>Tasks</h1>
                 {% for task in session.tasks %} 
-                    <div><input type="checkbox"><span>{{ task.title }}</span></div>
+                    <div><input type="checkbox" name="task" value="{{task.id}}"><span>{{ task.title }}</span></div>
                 {% endfor %}
             </div>
         {% endif %}
-    </div>
+    </form>
 </main>
 {% block script %} {{super()}} {% endblock script %}
 <script>
-    const initialseconds = ({{ session.hours or 0 }} * 3600) + ({{ session.minutes }} * 60);
+    const initialseconds = ({{ session.hours or 0 }} * 3600) + ({{ session.minutes }} * 60) + {{session.seconds or 0}};
     let totalseconds = initialseconds;
     let timerInterval = null;
 

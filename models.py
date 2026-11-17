@@ -131,5 +131,6 @@ class Pomodoro(db.Model):
     description = db.Column(db.Text, nullable=True)
     hours = db.Column(db.Integer, nullable=True)
     minutes = db.Column(db.Integer, nullable=False)
+    seconds = db.Column(db.Integer, nullable=True)
     project_id = db.Column(db.Integer, db.ForeignKey("project.id"),nullable=True)
     tasks = db.relationship("Task", backref="pomodoro", lazy=True, cascade="all, delete-orphan")

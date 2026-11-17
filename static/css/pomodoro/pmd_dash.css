@@ -25,7 +25,7 @@ span{
 .session{
     display: flex;
     flex-direction: column;
-    width:40%;
+    width:800px;
     background-color: rgba(236, 10, 10, 0.255);
     font-size: 20px;
     border: 2px solid red;
@@ -34,7 +34,7 @@ span{
 }
 .first-row {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 15px;
 }
@@ -52,8 +52,20 @@ span{
     justify-self: end;
     margin-bottom: auto;
 }
+.tasks-info{
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap:3px;
+}
 .dark, .dark.pomodoro{
     background-color: #121212;
     color:white;
     fill:white;
+}
+@media (max-width:1100px){
+    .session{
+        width:96%
+    }
 }

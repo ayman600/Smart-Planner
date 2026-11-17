@@ -14,9 +14,10 @@
             <label>Time</label>
             <div class="time">
                 <input type="number" name="hours" max="99" value="00">
-                <p>h</p>
-                <input type="number" name="minutes" value="05" required>
-                <p>min</p>
+                <p>:</p>
+                <input type="number" name="minutes" min="5" max="59" value="05" required>
+                <p>:</p>
+                <input type="number" name="seconds" max="59" value="00">
             </div>
 
             <label>Description</label>

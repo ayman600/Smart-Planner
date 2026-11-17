@@ -1486,14 +1486,16 @@ def new_pmd_session():
             title = request.form["title"]
             hours = request.form["hours"]
             minutes = request.form["minutes"]
+            seconds = request.form["seconds"]
             description = request.form["description"]
             project_id = request.form["project"]
             tasks = request.form.getlist("tasks")
-            pomodoro = Pomodoro(user_id=user_id, title=title, description=description, hours=hours, minutes=minutes, project_id=project_id)
+            pomodoro = Pomodoro(user_id=user_id, title=title, description=description, hours=hours, minutes=minutes, seconds=seconds, project_id=project_id)
             db.session.add(pomodoro)
             db.session.flush()
             for task in tasks:
-                new_task = Task(title=task,user_id=user_id,pomodoro_id=pomodoro.id)
+                if task:
+                    new_task = Task(title=task,user_id=user_id,pomodoro_id=pomodoro.id)
                 db.session.add(new_task)
             db.session.commit()
             title = title if title else "Pomodoro ion"
@@ -1503,6 +1505,16 @@ def new_pmd_session():
     projects = Project.query.filter_by(user_id=session['user_id']).all()
     print(projects)
     return render_template("pomodoro/new_pmd_session.html", title="New Session", projects=projects, name=session['name'],streak=session['streak'])
+@app.route("/pomodoro/finish-session", methods=["POST"])
+@login_required
+def pmd_session():
+    completed_tasks = request.form.getlist("task")
+    for task in completed_tasks:
+        print(f"============================================{task}")
+        task = Task.query.filter_by(user_id=session["user_id"], id=task).first_or_404()
+        task.completed = True
+    db.session.commit()
+    return redirect(url_for('pomodoro'))
 
 @app.route("/logout")
 def logout():
